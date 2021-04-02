@@ -55,4 +55,7 @@ def union(a, b):
 
 def IoU(a, b):
     c = intersect(a, b)
-    return c.area() / (a.area() + b.area() - c.area())
+    if c is not None:
+        return c.area() / (a.area() + b.area() - c.area())
+    else:
+        return 0
