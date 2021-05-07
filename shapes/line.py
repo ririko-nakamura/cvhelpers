@@ -64,6 +64,17 @@ class Line:
                 return (x, self.y(x))
 
 
+    '''
+    Calculate the point whose distance to input point equals to step
+    on the normal direction
+    '''
+    def vstep(self, point, step=-1):
+        normal_vec = (self.p2[0] - self.p1[0], self.p2[1] - self.p1[1])
+        point2 = (point[0] + normal_vec[0], point[1] + normal_vec[1])
+        normal = Line(Line.TWO_POINTS, (point, point2))
+        return normal.step(point, step)
+
+
     def render(self, img, color=(255, 0, 0)):
         A = (0, self.y(0))
         B = (img.shape[1] - 1, self.y(img.shape[1] - 1))
