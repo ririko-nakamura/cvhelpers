@@ -3,7 +3,13 @@ import math
 import cv2 as cv
 import numpy as np
 
-__all__ = ["Line", "Horizon"]
+__all__ = ["Line", "Horizon", "NotAFunctionException"]
+
+
+class NotAFunctionException(Exception):
+
+    def __init__(self, arg):
+        self.args = arg
 
 
 # All angles are in radians.
@@ -35,7 +41,8 @@ class Line:
 
 
     def y(self, x):
-        assert(math.fabs(self.p1[0] - self.p2[0]) >= 1e-6)
+        if math.fabs(self.p1[0] - self.p2[0]) <= 1e-6:
+            raise NotAFunctionException("This line has k=0 and all the same y coords")
         k = (self.p1[1] - self.p2[1]) / (self.p1[0] - self.p2[0])
         delta_x = x - self.p1[0]
         delta_y = delta_x * k
@@ -43,7 +50,8 @@ class Line:
 
 
     def x(self, y):
-        assert(math.fabs(self.p1[1] - self.p2[1]) >= 1e-6)
+        if math.fabs(self.p1[1] - self.p2[1]) <= 1e-6:
+            raise NotAFunctionException("This line has m=0 and all the same x coords")
         m = (self.p1[0] - self.p2[0]) / (self.p1[1] - self.p2[1])
         delta_y = y - self.p1[1]
         delta_x = delta_y * m
